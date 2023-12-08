@@ -1,0 +1,56 @@
+---
+## install Jenkins Controller
+- hosts: jenkins_servers
+  become: true
+
+  vars_files: vars.yml
+
+  pre_tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 3600
+
+  tasks:
+    - name: Install Java
+      apt:
+        name: "{{ jdk_version }}"
+        state: latest
+
+    - name: Download Jenkins keyring file
+      get_url:
+        url: "{{ jenkins_keyring_url }}"
+        dest: "{{ jenkins_keyring_download_path }}"
+      
+    - name: Write source data to jenkins.list file
+      copy: 
+        dest: "{{ jenkins_sources_file }}"
+        content: "{{ jenkins_sources_data }}"
+
+    - name: Update apt again to get Jenkins package data
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins and dependencies
+      apt:
+        name:
+          - "{{ jre_version }}"
+          - fontconfig
+          - jenkins
+        state: latest
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Get first-time login password
+      command: "sudo cat {{ first_login_pass_file }}"
+      register: first_login_pass
+
+    - name: Output first-time login password
+      debug:
+        msg: "{{ first_login_pass.stdout }}"
+

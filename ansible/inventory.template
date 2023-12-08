@@ -1,0 +1,12 @@
+---
+servers:
+  children:
+    jenkins_servers:
+      hosts:
+        111.222.333.444:
+    docker_servers:
+      hosts:
+        555.666.777.888:
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: /mydir/mykeys/my_ssh_key_file.pem

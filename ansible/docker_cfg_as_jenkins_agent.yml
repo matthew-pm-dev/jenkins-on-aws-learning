@@ -1,0 +1,26 @@
+---
+## install Docker Engine
+- hosts: docker_servers
+  become: true
+
+  handlers:
+    - name: Reload and restart  # reload and restart daemon if config changed
+      systemd_service:
+        state: restarted
+        daemon_reload: true
+        name: docker
+
+  tasks:
+    - name: Modify docker.service file for hosting Jenkins Agents
+      lineinfile:
+        path: /lib/systemd/system/docker.service
+        regexp: "^ExecStart="
+        line: "ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
+        backrefs: yes
+      notify: Reload and restart
+
+    - name: Validate Jenkins Agent API
+      uri:
+        url: "http://{{ ansible_default_ipv4.address }}:4243/version"
+        return_content: yes
+      register: api_validation_test

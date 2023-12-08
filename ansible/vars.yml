@@ -1,0 +1,9 @@
+---
+# jenkins vars
+jdk_version: "openjdk-17-jdk"
+jre_version: "openjdk-17-jre"
+jenkins_keyring_url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
+jenkins_keyring_download_path: "/usr/share/keyrings/jenkins-keyring.asc"
+jenkins_sources_file: "/etc/apt/sources.list.d/jenkins.list"
+jenkins_sources_data: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+first_login_pass_file: "/var/lib/jenkins/secrets/initialAdminPassword"
