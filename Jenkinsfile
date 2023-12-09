@@ -1,9 +1,7 @@
 pipeline {
     agent { 
-        node {
-            label 'docker-agent-alpine-jdk11-python'
-            }
-      }
+        dockerfile true
+    }
     stages {
         stage('Build') {
             steps {
