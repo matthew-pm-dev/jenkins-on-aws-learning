@@ -7,29 +7,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building.."
-                sh '''
-                cd pythonapp
-                pip3 install -r requirements.txt
-                '''
+                echo 'install requirements:'
+                sh 'cd pythonapp'                
+                sh 'pip3 install -r requirements.txt'
             }
         }
         stage('Test') {
             steps {
-                echo "Testing.."
-                sh '''
-                cd pythonapp
-                python3 hello_world_fire.py
-                python3 hello_world_fire.py --name=Testman
-                '''
-            }
-        }
-        stage('Deliver') {
-            steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
+                echo "Testing fire app:"
+                sh 'cd pythonapp'
+                sh 'python3 hello_world_fire.py'
+                sh 'python3 hello_world_fire.py --name=Testman'
             }
         }
     }
