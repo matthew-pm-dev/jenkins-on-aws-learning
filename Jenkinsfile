@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo 'install requirements:'
                 sh '''
-                cd pythonapp'               
+                cd pythonapp               
                 pip3 install -r requirements.txt
                 '''
             }
